@@ -634,70 +634,14 @@
     <!-- Featured Products Section -->
     <section class="container">
         <section class="featured-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Featured Products</h2>
-                <p>Discover our handpicked selection of premium quality products</p>
-            </div>
-        </div>
-    </section>
-        <div class="products">
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://www.orgpick.com/cdn/shop/articles/Apple_1024x1024.jpg?v=1547124407" alt="Organic Apples">
-                    <span class="product-badge">Organic</span>
-                </div>
-                <div class="product-info">
-                    <h3>Organic Apples</h3>
-                    <p>Fresh, crisp organic apples from local farms.</p>
-                    <div class="product-price">
-                        <div class="price">4.99/kg</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
+            <div class="container">
+                <div class="section-title">
+                    <h2>Featured Products</h2>
+                    <p>Discover our handpicked selection of premium quality products</p>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://images.pexels.com/photos/557659/pexels-photo-557659.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Fresh Avocados">
-                    <span class="product-badge">Sale</span>
-                </div>
-                <div class="product-info">
-                    <h3>Fresh Avocados</h3>
-                    <p>Perfectly ripe avocados, great for salads and toast.</p>
-                    <div class="product-price">
-                        <div class="price">2.99 <span class="old-price">$3.99</span></div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://media.istockphoto.com/id/1222018207/photo/pouring-milk-into-a-drinking-glass.jpg?s=612x612&w=0&k=20&c=eD4YHoSjKIYSPDgnM2OgWD_HVH2IcmjZSRq7IjUnH6M=" alt="Fresh Milk">
-                </div>
-                <div class="product-info">
-                    <h3>Fresh Milk</h3>
-                    <p>Farm-fresh milk, delivered daily.</p>
-                    <div class="product-price">
-                        <div class="price">3.49</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Artisan Bread">
-                    <span class="product-badge">New</span>
-                </div>
-                <div class="product-info">
-                    <h3>Artisan Bread</h3>
-                    <p>Freshly baked sourdough bread with a crispy crust.</p>
-                    <div class="product-price">
-                        <div class="price">5.99</div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
+        <div id="featured-products" class="products"></div>
     </section>
 
     <!-- Special Offers -->
@@ -784,72 +728,6 @@
         </div>
     </footer>
 
-    <script>
-        // Simple cart functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const cartCount = document.querySelector('.cart-count');
-            let count = 3; // Initial cart count
-            
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    count++;
-                    cartCount.textContent = count;
-                    
-                    // Add animation effect
-                    button.textContent = 'Added!';
-                    button.style.backgroundColor = '#4CAF50';
-                    
-                    setTimeout(() => {
-                        button.textContent = 'Add to Cart';
-                        button.style.backgroundColor = '';
-                    }, 1500);
-                });
-            });
-            
-            // Simple countdown timer for the special offer
-            function updateTimer() {
-                const days = document.querySelector('.timer-box:nth-child(1) span');
-                const hours = document.querySelector('.timer-box:nth-child(2) span');
-                const minutes = document.querySelector('.timer-box:nth-child(3) span');
-                const seconds = document.querySelector('.timer-box:nth-child(4) span');
-                
-                // This is a simple demo - in a real app you would calculate the actual time difference
-                let sec = parseInt(seconds.textContent);
-                let min = parseInt(minutes.textContent);
-                let hrs = parseInt(hours.textContent);
-                let dys = parseInt(days.textContent);
-                
-                sec--;
-                
-                if (sec < 0) {
-                    sec = 59;
-                    min--;
-                    
-                    if (min < 0) {
-                        min = 59;
-                        hrs--;
-                        
-                        if (hrs < 0) {
-                            hrs = 23;
-                            dys--;
-                            
-                            if (dys < 0) {
-                                // Timer ended
-                                return;
-                            }
-                        }
-                    }
-                }
-                
-                seconds.textContent = sec < 10 ? '0' + sec : sec;
-                minutes.textContent = min < 10 ? '0' + min : min;
-                hours.textContent = hrs < 10 ? '0' + hrs : hrs;
-                days.textContent = dys < 10 ? '0' + dys : dys;
-            }
-            
-            setInterval(updateTimer, 1000);
-        });
-    </script>
+    <script src="js/main.js?v=3"></script>
 </body>
 </html>

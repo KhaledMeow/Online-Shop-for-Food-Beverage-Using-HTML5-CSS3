@@ -198,29 +198,5 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script>
-        // Initialize test cart items if cart is empty
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Cart page loaded');
-            
-            // Initialize cart
-            if (typeof initCart === 'function') {
-                initCart();
-                
-                // Add test items if cart is empty (for demo purposes)
-                if (cart && cart.length === 0 && typeof addToCart === 'function') {
-                    console.log('Adding test items to cart');
-                    // Add a couple of test items
-                    addToCart(1, 2); // 2x Organic Apples
-                    addToCart(7, 1); // 1x Fresh Milk
-                }
-                
-                // Force render the cart
-                if (typeof renderCart === 'function') {
-                    renderCart();
-                }
-            }
-        });
-    </script>
 </body>
 </html>

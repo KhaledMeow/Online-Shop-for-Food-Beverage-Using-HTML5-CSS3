@@ -127,6 +127,18 @@ function saveCart() {
     }
 }
 
+// Update the cart counter badge in the header
+function updateCartCount() {
+    try {
+        const el = document.querySelector('.cart-count');
+        if (!el) return;
+        const totalQty = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+        el.textContent = String(totalQty);
+    } catch (e) {
+        console.warn('updateCartCount error:', e);
+    }
+}
+
 function addToCart(productId, quantity = 1) {
     // Ensure productId is a number
     productId = parseInt(productId);
@@ -249,7 +261,11 @@ function renderCart() {
     // Render cart items
     cartItemsContainer.innerHTML = cart.map(item => {
         const product = getProductById(item.id) || {};
-        const imageUrl = product.image || 'https://via.placeholder.com/150';
+        // Resolve image similarly to product cards and encode spaces
+        const isHttp = (url) => /^https?:/i.test(url || '');
+        const basePathPrefix = window.location.pathname.includes('/categories/') ? '../' : '';
+        const resolvedImage = isHttp(product.image) ? product.image : basePathPrefix + (product.image || '');
+        const imageUrl = encodeURI(resolvedImage || 'https://via.placeholder.com/150');
         const price = parseFloat(product.price || 0).toFixed(2);
         const total = (price * item.quantity).toFixed(2);
         
@@ -395,7 +411,7 @@ const products = {
             id: 102, 
             name: 'Artisan Bread Collection', 
             price: 19.99, 
-            image: 'https://images.unsplash.com/photo-1509448120590-802f1ebfdfb5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80', 
+            image: 'https://media.istockphoto.com/id/1283247428/photo/table-decorated-with-various-artisan-breads-produced-with-studio-light.jpg?s=612x612&w=0&k=20&c=zN35EjW7FAiDS62LkZMW7SYB3_hW4RoP67ZFV_xB9vg=', 
             description: 'Freshly baked assortment of sourdough, baguette, and ciabatta.',
             isFeatured: true,
             category: 'bakery'
@@ -405,7 +421,7 @@ const products = {
             name: 'Gourmet Cheese Platter', 
             price: 34.99, 
             originalPrice: 44.99,
-            image: 'https://images.unsplash.com/photo-1550583724d9ab751c8d7c2e8a0f3b5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80', 
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBtapLrQlKxPAzz8BNxTeLRLUsUwV4YO5cRg&s', 
             description: 'Selection of fine cheeses with crackers and seasonal fruits.',
             isFeatured: true,
             category: 'dairy'
@@ -424,7 +440,7 @@ const products = {
             name: 'Organic Vegetable Box', 
             price: 39.99, 
             originalPrice: 49.99,
-            image: 'https://images.unsplash.com/photo-1542838132-92d7f6c2faf2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80', 
+            image: 'https://yummify.com.au/wp-content/uploads/2020/04/veggie-box-delivery-byron-bay.jpg', 
             description: 'Fresh, seasonal organic vegetables delivered to your door.',
             isFeatured: true,
             category: 'vegetables'
@@ -433,8 +449,8 @@ const products = {
             id: 106, 
             name: 'Chocolate Lovers Bundle', 
             price: 27.99, 
-            image: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80', 
-            description: 'Assortment of premium dark, milk, and white chocolates.',
+            image: 'https://www.eatiqbar.com/cdn/shop/files/CLV_ListingImages-01.png?v=1742242628', 
+            description: 'Assortment of premium Sea salt, Peanut Butter and Almond chocolates.',
             isFeatured: true,
             category: 'sweets'
         }
@@ -532,7 +548,7 @@ const products = {
             name: 'Mediterranean Feast', 
             price: 49.99, 
             originalPrice: 64.99, 
-            image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80', 
+            image: 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2023/11/17/fn_mezze-board-s4x3.jpg.rend.hgtvcom.616.462.suffix/1700505559832.webp', 
             description: 'Hummus, falafel, pita bread, tabbouleh, and tzatziki sauce. Perfect for sharing!', 
             isOffer: true,
             category: 'international',
