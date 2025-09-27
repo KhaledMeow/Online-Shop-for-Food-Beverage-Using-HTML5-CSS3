@@ -505,7 +505,7 @@ const products = {
         { id: 15, name: 'Iced Green Tea', price: 2.99, image: 'https://www.jessicagavin.com/wp-content/uploads/2014/07/iced-green-tea-lemon-lime-honey-1200.jpg', description: 'Refreshing iced green tea with a hint of honey and lemon.' }
     ],
     meat: [
-        { id: 16, name: 'Grass-Fed Ribeye Steak', price: 24.99, image: 'https://whiteoakpastures.com/cdn/shop/products/20230222-_DSC8654.jpg?v=1689366244', description: 'Premium 12oz grass-fed ribeye, aged for 28 days, perfect for grilling.' },
+        { id: 16, name: 'Grass-Fed Ribeye Steak', price: 24.99, image: 'https://whiteoakpastures.com/cdn/shop/products/20250222-_DSC8654.jpg?v=1689366244', description: 'Premium 12oz grass-fed ribeye, aged for 28 days, perfect for grilling.' },
         { id: 17, name: 'Free-Range Chicken Breast', price: 12.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5lpyg2VlfgKRxoWJMd_J6H_rygAKvZO3pzQ&s', description: 'Boneless, skinless chicken breast from humanely raised, antibiotic-free chickens.' },
         { id: 18, name: 'Wild-Caught Salmon Fillet', price: 18.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcMcRLvpHHyvp5AdKxqCgMnSrUANuL7X9Rqg&s', description: 'Fresh, wild-caught Alaskan salmon fillet, rich in omega-3 fatty acids.' }
     ],
@@ -548,7 +548,7 @@ const products = {
             name: 'Mediterranean Feast', 
             price: 49.99, 
             originalPrice: 64.99, 
-            image: 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2023/11/17/fn_mezze-board-s4x3.jpg.rend.hgtvcom.616.462.suffix/1700505559832.webp', 
+            image: 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2025/11/17/fn_mezze-board-s4x3.jpg.rend.hgtvcom.616.462.suffix/1700505559832.webp', 
             description: 'Hummus, falafel, pita bread, tabbouleh, and tzatziki sauce. Perfect for sharing!', 
             isOffer: true,
             category: 'international',
@@ -758,31 +758,13 @@ function loadProducts() {
                 </div>`;
         }
     }
-    
-    // Add event listeners to all Add to Cart buttons
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    console.log('Found', addToCartButtons.length, 'Add to Cart buttons');
-    
-    addToCartButtons.forEach(button => {
-        button.removeEventListener('click', handleAddToCartClick);
-        button.addEventListener('click', handleAddToCartClick);
-    });
-    
     // Initialize animations for product cards
     setupScrollAnimations();
     
     console.log('=== loadProducts() completed ===');
 }
 
-// Function to handle adding items to cart from product cards
-function handleAddToCartClick(event) {
-    const button = event.target.closest('.add-to-cart');
-    if (!button) return;
-    
-    event.preventDefault();
-    const productId = parseInt(button.getAttribute('data-id'));
-    addToCart(productId);
-}
+// (Removed duplicate handler to prevent double-adding)
 
 // Smooth scrolling for anchor links
 function setupSmoothScrolling() {
@@ -897,11 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Delegate click events for add to cart buttons
-    document.addEventListener('click', function(event) {
-        if (event.target.closest('.add-to-cart')) {
-            handleAddToCartClick(event);
-        }
-    });
+    // (Removed duplicate add-to-cart click delegation here; using single global delegation below)
     
     // Close mobile menu when clicking on a nav link
     const navLinks = document.querySelectorAll('.nav-links a');
