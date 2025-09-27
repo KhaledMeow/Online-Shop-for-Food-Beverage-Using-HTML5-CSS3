@@ -436,12 +436,18 @@ nav {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    background-image: url('../photos/background.png');
     color: white;
     padding: 120px 0;
     position: relative;
     margin-bottom: 60px;
     animation: gradientShift 15s ease infinite;
     background-blend-mode: multiply;
+}
+
+/* Center banner text horizontally */
+.category-banner .container {
+    text-align: center;
 }
 
 @keyframes gradientShift {
