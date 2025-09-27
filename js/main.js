@@ -10,59 +10,6 @@ function setupHeaderScroll() {
             header.classList.remove('scrolled');
             return;
         }
-
-// Render search results on search.html
-function renderSearchResults() {
-    const params = new URLSearchParams(window.location.search);
-    const query = (params.get('q') || '').trim();
-    const container = document.getElementById('products-container');
-    const titleEl = document.querySelector('.section-title h2');
-    if (titleEl) {
-        titleEl.textContent = query ? `Search results for "${query}"` : 'Search';
-    }
-    if (!container) return;
-
-    // If no query, show a hint
-    if (!query) {
-        container.innerHTML = `
-            <div class="no-products">
-                <i class="fas fa-search"></i>
-                <p>Please enter a search term in the header search bar.</p>
-                <a href="index.html" class="btn">Back to Home</a>
-            </div>`;
-        return;
-    }
-
-    // Aggregate all products from all categories
-    const allProducts = [];
-    for (const key in products) {
-        if (Array.isArray(products[key])) {
-            allProducts.push(...products[key]);
-        }
-    }
-
-    const q = query.toLowerCase();
-    const results = allProducts.filter(p =>
-        (p.name && p.name.toLowerCase().includes(q)) ||
-        (p.description && p.description.toLowerCase().includes(q))
-    );
-
-    if (results.length === 0) {
-        container.innerHTML = `
-            <div class="no-products">
-                <i class="fas fa-box-open"></i>
-                <p>No results found for "${query}".</p>
-                <a href="index.html" class="btn">Back to Home</a>
-            </div>`;
-        return;
-    }
-
-    container.innerHTML = '';
-    results.forEach(product => {
-        container.insertAdjacentHTML('beforeend', createProductCard(product));
-    });
-    setupScrollAnimations();
-}
         
         if (currentScroll > lastScroll && !header.classList.contains('scrolled')) {
             header.classList.add('scrolled');
@@ -877,6 +824,59 @@ function setupScrollAnimations() {
         // Initial check in case elements are already in view
         animateOnScroll(productCards, 'animate');
     }
+}
+
+// Render search results on search.html
+function renderSearchResults() {
+    const params = new URLSearchParams(window.location.search);
+    const query = (params.get('q') || '').trim();
+    const container = document.getElementById('products-container');
+    const titleEl = document.querySelector('.section-title h2');
+    if (titleEl) {
+        titleEl.textContent = query ? `Search results for "${query}"` : 'Search';
+    }
+    if (!container) return;
+
+    // If no query, show a hint
+    if (!query) {
+        container.innerHTML = `
+            <div class="no-products">
+                <i class="fas fa-search"></i>
+                <p>Please enter a search term in the header search bar.</p>
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>`;
+        return;
+    }
+
+    // Aggregate all products from all categories
+    const allProducts = [];
+    for (const key in products) {
+        if (Array.isArray(products[key])) {
+            allProducts.push(...products[key]);
+        }
+    }
+
+    const q = query.toLowerCase();
+    const results = allProducts.filter(p =>
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q))
+    );
+
+    if (results.length === 0) {
+        container.innerHTML = `
+            <div class="no-products">
+                <i class="fas fa-box-open"></i>
+                <p>No results found for "${query}".</p>
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = '';
+    results.forEach(product => {
+        container.insertAdjacentHTML('beforeend', createProductCard(product));
+    });
+    setupScrollAnimations();
 }
 
 // Debug function to log product data
