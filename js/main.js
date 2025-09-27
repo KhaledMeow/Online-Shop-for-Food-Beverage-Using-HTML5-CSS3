@@ -554,8 +554,8 @@ const products = {
 // Function to create product card HTML
 function createProductCard(product) {
     const priceHtml = product.originalPrice 
-        ? `<span class="price">$${product.price.toFixed(2)} <span class="old-price">$${product.originalPrice.toFixed(2)}</span></span>`
-        : `<span class="price">$${product.price.toFixed(2)}</span>`;
+        ? `<span class="price">${product.price.toFixed(2)} <span class="old-price">$${product.originalPrice.toFixed(2)}</span></span>`
+        : `<span class="price">${product.price.toFixed(2)}</span>`;
         
     return `
         <div class="product-card">
