@@ -499,7 +499,7 @@ const products = {
             name: 'Family BBQ Pack', 
             price: 59.99, 
             originalPrice: 79.99, 
-            image: 'D:/Online Shop for Food & Beverage Using HTML5 & CSS3/photos/image.png', 
+            image: 'photos/Family BBQ Pack.png', 
             description: 'Special bundle: 2 ribeye steaks, 4 chicken breasts, and 2 salmon fillets. Save $20!', 
             isOffer: true,
             category: 'meat',
@@ -510,7 +510,7 @@ const products = {
             name: 'Breakfast Bundle', 
             price: 14.99, 
             originalPrice: 19.99, 
-            image: 'D:/Online Shop for Food & Beverage Using HTML5 & CSS3/photos/image copy.png', 
+            image: 'photos/Breakfast Bundle.png', 
             description: '1 dozen farm eggs, 1 loaf of sourdough, and 1L fresh orange juice. Perfect start to your day!', 
             isOffer: true,
             category: 'breakfast',
@@ -521,7 +521,7 @@ const products = {
             name: 'Healthy Lunch Combo', 
             price: 12.99, 
             originalPrice: 16.97, 
-            image: 'D:/Online Shop for Food & Beverage Using HTML5 & CSS3/photos/image copy 2.png', 
+            image: 'photos/Healthy Lunch Combo.png', 
             description: 'Chicken breast, mixed greens, tomatoes, and a bottle of iced green tea. Save 25%!', 
             isOffer: true,
             category: 'lunch',
@@ -553,6 +553,11 @@ const products = {
 
 // Function to create product card HTML
 function createProductCard(product) {
+    // Resolve image path for both root and category pages and handle spaces
+    const isHttp = (url) => /^https?:/i.test(url || '');
+    const basePathPrefix = window.location.pathname.includes('/categories/') ? '../' : '';
+    const resolvedImage = isHttp(product.image) ? product.image : basePathPrefix + (product.image || '');
+    const imageUrl = encodeURI(resolvedImage || 'https://via.placeholder.com/300x200');
     const priceHtml = product.originalPrice 
         ? `<span class="price">${product.price.toFixed(2)} <span class="old-price">$${product.originalPrice.toFixed(2)}</span></span>`
         : `<span class="price">${product.price.toFixed(2)}</span>`;
@@ -560,7 +565,7 @@ function createProductCard(product) {
     return `
         <div class="product-card">
             <div class="product-img">
-                <img src="${product.image}" alt="${product.name}" loading="lazy">
+                <img src="${imageUrl}" alt="${product.name}" loading="lazy">
                 ${product.isOffer ? '<span class="product-badge">Special Offer</span>' : ''}
                 ${product.isFeatured ? '<span class="featured-badge">Featured</span>' : ''}
             </div>
