@@ -10,6 +10,59 @@ function setupHeaderScroll() {
             header.classList.remove('scrolled');
             return;
         }
+
+// Render search results on search.html
+function renderSearchResults() {
+    const params = new URLSearchParams(window.location.search);
+    const query = (params.get('q') || '').trim();
+    const container = document.getElementById('products-container');
+    const titleEl = document.querySelector('.section-title h2');
+    if (titleEl) {
+        titleEl.textContent = query ? `Search results for "${query}"` : 'Search';
+    }
+    if (!container) return;
+
+    // If no query, show a hint
+    if (!query) {
+        container.innerHTML = `
+            <div class="no-products">
+                <i class="fas fa-search"></i>
+                <p>Please enter a search term in the header search bar.</p>
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>`;
+        return;
+    }
+
+    // Aggregate all products from all categories
+    const allProducts = [];
+    for (const key in products) {
+        if (Array.isArray(products[key])) {
+            allProducts.push(...products[key]);
+        }
+    }
+
+    const q = query.toLowerCase();
+    const results = allProducts.filter(p =>
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q))
+    );
+
+    if (results.length === 0) {
+        container.innerHTML = `
+            <div class="no-products">
+                <i class="fas fa-box-open"></i>
+                <p>No results found for "${query}".</p>
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = '';
+    results.forEach(product => {
+        container.insertAdjacentHTML('beforeend', createProductCard(product));
+    });
+    setupScrollAnimations();
+}
         
         if (currentScroll > lastScroll && !header.classList.contains('scrolled')) {
             header.classList.add('scrolled');
@@ -491,7 +544,7 @@ const products = {
     ],
     dairy: [
         { id: 7, name: 'Fresh Milk', price: 3.49, image: 'https://media.istockphoto.com/id/1222018207/photo/pouring-milk-into-a-drinking-glass.jpg?s=612x612&w=0&k=20&c=eD4YHoSjKIYSPDgnM2OgWD_HVH2IcmjZSRq7IjUnH6M=', description: 'Farm-fresh milk, delivered daily.' },
-        { id: 8, name: 'Farm Eggs', price: 4.99, image: 'https://nmrcdn.s3.amazonaws.com/legacy/200000/200186/white_eggs.jpg', description: 'Free-range farm eggs, packed with protein.' },
+        { id: 8, name: 'Farm Eggs', price: 4.99, image: 'https://nmrcdn.s3.amazonaws.com/legacy/200000/200186/white_eggs.jpg', description: ' farm eggs, packed with protein.' },
         { id: 9, name: 'Cheddar Cheese', price: 5.99, image: 'https://pearlvalleycheese.com/cdn/shop/files/sharp-cheddar-slices_1.jpg?v=1755888466&width=2400', description: 'Aged cheddar cheese, perfect for sandwiches.' }
     ],
     bakery: [
@@ -505,8 +558,8 @@ const products = {
         { id: 15, name: 'Iced Green Tea', price: 2.99, image: 'https://www.jessicagavin.com/wp-content/uploads/2014/07/iced-green-tea-lemon-lime-honey-1200.jpg', description: 'Refreshing iced green tea with a hint of honey and lemon.' }
     ],
     meat: [
-        { id: 16, name: 'Grass-Fed Ribeye Steak', price: 24.99, image: 'https://whiteoakpastures.com/cdn/shop/products/20250222-_DSC8654.jpg?v=1689366244', description: 'Premium 12oz grass-fed ribeye, aged for 28 days, perfect for grilling.' },
-        { id: 17, name: 'Free-Range Chicken Breast', price: 12.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5lpyg2VlfgKRxoWJMd_J6H_rygAKvZO3pzQ&s', description: 'Boneless, skinless chicken breast from humanely raised, antibiotic-free chickens.' },
+        { id: 16, name: 'Grass-Fed Ribeye Steak', price: 24.99, image: 'https://whiteoakpastures.com/cdn/shop/products/20230222-_DSC8654.jpg?v=1689366244', description: 'Premium 12oz grass-fed ribeye, aged for 28 days, perfect for grilling.' },
+        { id: 17, name: ' Chicken Breast', price: 12.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5lpyg2VlfgKRxoWJMd_J6H_rygAKvZO3pzQ&s', description: 'Boneless, skinless chicken breast from humanely raised, antibiotic-free chickens.' },
         { id: 18, name: 'Wild-Caught Salmon Fillet', price: 18.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcMcRLvpHHyvp5AdKxqCgMnSrUANuL7X9Rqg&s', description: 'Fresh, wild-caught Alaskan salmon fillet, rich in omega-3 fatty acids.' }
     ],
     offers: [
@@ -850,32 +903,51 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call debug function
     debugProductData();
     
-    // Load products with a small delay to ensure everything is ready
-    setTimeout(() => {
-        loadProducts();
-        // Debug: Check if any products were loaded
+    // If on search page, render search results and skip normal product loading
+    if (window.location.pathname.includes('search.html')) {
+        renderSearchResults();
+    } else {
+        // Load products with a small delay to ensure everything is ready
         setTimeout(() => {
-            const productCards = document.querySelectorAll('.product-card');
-            console.log(`Found ${productCards.length} product cards in the DOM`);
-            if (productCards.length === 0) {
-                console.error('No product cards were added to the DOM!');
-                // Try to force reload products
-                loadProducts();
-            }
-        }, 300);
-    }, 100);
+            loadProducts();
+            // Debug: Check if any products were loaded
+            setTimeout(() => {
+                const productCards = document.querySelectorAll('.product-card');
+                console.log(`Found ${productCards.length} product cards in the DOM`);
+                if (productCards.length === 0) {
+                    console.error('No product cards were added to the DOM!');
+                    // Try to force reload products
+                    loadProducts();
+                }
+            }, 300);
+        }, 100);
+    }
     
-    // Handle search form submission
-    const searchForm = document.querySelector('.search-bar');
-    if (searchForm) {
-        searchForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const query = this.querySelector('input').value.trim();
+    // Handle search via button click and Enter key (search-bar is not a form)
+    const searchBar = document.querySelector('.search-bar');
+    if (searchBar) {
+        const input = searchBar.querySelector('input');
+        const btn = searchBar.querySelector('.search-btn, button[type="submit"]');
+        const executeSearch = () => {
+            const query = (input && input.value ? input.value : '').trim();
             if (query) {
-                // In a real app, you would redirect to a search results page or filter products
                 window.location.href = `search.html?q=${encodeURIComponent(query)}`;
             }
-        });
+        };
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                executeSearch();
+            });
+        }
+        if (input) {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    executeSearch();
+                }
+            });
+        }
     }
     
     // Delegate click events for add to cart buttons
