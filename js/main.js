@@ -601,7 +601,7 @@ const products = {
             name: 'Mediterranean Feast', 
             price: 49.99, 
             originalPrice: 64.99, 
-            image: 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2025/11/17/fn_mezze-board-s4x3.jpg.rend.hgtvcom.616.462.suffix/1700505559832.webp', 
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRDmJ7BtE8dWlO-2htkLlGZFRQW2vlNK4S6g&s', 
             description: 'Hummus, falafel, pita bread, tabbouleh, and tzatziki sauce. Perfect for sharing!', 
             isOffer: true,
             category: 'international',
