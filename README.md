@@ -22,6 +22,7 @@ The website showcases categories of food and beverages with a clean and user-fri
 ## 🚀 Technologies Used
 - **HTML5**
 - **CSS3**
+- **JavaScript**
 
 ---
 
