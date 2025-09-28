@@ -32,7 +32,7 @@ The website showcases categories of food and beverages with a clean and user-fri
 
 ## 💻 Live Demo
 If you want to try it out online:  
-👉 [Add your GitHub Pages / Netlify link here]
+👉 (https://khaledmeow.github.io/Online-Shop-for-Food-Beverage-Using-HTML5-CSS3/)
 
 ---
 
