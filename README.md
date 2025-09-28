@@ -26,11 +26,6 @@ The website showcases categories of food and beverages with a clean and user-fri
 
 ---
 
-## 📷 Screenshots
-*(You can add screenshots of your project here — e.g., homepage, categories, etc.)*
-
----
-
 ## 💻 Live Demo
 If you want to try it out online:  
 👉 (https://khaledmeow.github.io/Online-Shop-for-Food-Beverage-Using-HTML5-CSS3/)
